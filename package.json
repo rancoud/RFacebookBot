@@ -1,0 +1,24 @@
+{
+  "name": "rfacebookbot",
+  "version": "1.0.0",
+  "description": "Bot for Facebook",
+  "main": "job.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rancoud/RFacebookBot.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rancoud/RFacebookBot/issues"
+  },
+  "homepage": "https://github.com/rancoud/RFacebookBot#readme",
+  "devDependencies": {
+    "colors": "^1.1.2",
+    "fb": "^1.0.0-beta2",
+    "npmlog": "^2.0.0"
+  }
+}
