@@ -1,5 +1,7 @@
+// https://developers.facebook.com/docs/graph-api/advanced/rate-limiting
+// 200 call /user/hour
 global.getClientRateLimit = function getRateLimit(client, callback) {
-  client.get('application/rate_limit_status', {}, function(error, rateLimitJson, response){
+  /*client.get('application/rate_limit_status', {}, function(error, rateLimitJson, response){
     if (!error) {
       callback(rateLimitJson);
     }
@@ -7,12 +9,14 @@ global.getClientRateLimit = function getRateLimit(client, callback) {
       logFacebookError(error);
       callback(null);
     }
-  });
+  });*/
+  callback(null);
 };
 
 global.getRateLimitByName = function saveRateLimit(name, forceRefresh) {
+  return null;
   // search in folder rate_limit_cache
-  var rateLimitJson = null;
+  /*var rateLimitJson = null;
   var expirationFileTime = 20 * 60; // 20 minutes in seconds
   var forceRefresh = forceRefresh || true;
 
@@ -29,9 +33,9 @@ global.getRateLimitByName = function saveRateLimit(name, forceRefresh) {
     //
   }
 
-  return rateLimitJson;
+  return rateLimitJson;*/
 };
 
 global.saveRateLimitByName = function saveRateLimit(name, json) {
-  fs.writeFileSync(__dirname + '/../rate_limit_cache/' + name + '.json', json, 'utf8');
+  //fs.writeFileSync(__dirname + '/../rate_limit_cache/' + name + '.json', json, 'utf8');
 };

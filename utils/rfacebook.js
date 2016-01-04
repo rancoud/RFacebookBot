@@ -1,7 +1,19 @@
-var Facebook = require('fb');
+function RFacebook(confFacebookApp) {
+  this.fb = require('fb');
+  this.conf = confFacebookApp;
+  this.fb.options(confFacebookApp);
+}
 
-Facebook.prototype.getAppName = function () {
-  return this.options.name;
+RFacebook.prototype.getAppName = function () {
+  return this.conf.name;
 };
 
-global.RFacebook = Facebook;
+RFacebook.prototype.api = function (url, options, callback) {
+  this.fb.api(url, options, callback);
+};
+
+RFacebook.prototype.setAccessToken = function (accessToken) {
+  this.fb.setAccessToken(accessToken);
+};
+
+global.RFacebook = RFacebook;
