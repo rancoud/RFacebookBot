@@ -103,7 +103,7 @@ RFacebook.prototype.extendAccessToken = function (accessToken) {
 
 RFacebook.prototype.setAccessTokenByUser = function (user) {
   try {
-    var tokenJson = JSON.parse(fs.readFileSync('./oauth_access_cache/' + user + '.tok'));
+    var tokenJson = JSON.parse(fs.readFileSync(__dirname + '/../oauth_access_cache/' + user + '.tok'));
     for (var i = 0; i < tokenJson.length; i++) {
       if(tokenJson[i].app_name === this.getAppName()) {
         this.fb.setAccessToken(tokenJson[i].access_token);
