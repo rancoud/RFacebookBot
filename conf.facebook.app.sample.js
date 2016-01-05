@@ -1,8 +1,8 @@
 module.exports = [
   {
     name: 'myapp', //must be unique
-    appId: '',
-    appSecret: '',
-    redirectUri: ''
+    app_id: '',
+    app_secret: '',
+    callback_url: ''
   }
 ];

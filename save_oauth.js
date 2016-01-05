@@ -73,20 +73,33 @@ else {
 http = require('http');
 server = http.createServer(function (req, res) {
   if(req.url === '/') {
-    client.getAuthUrl(function(oauthData){
-      log.info('RFacebookBot SaveOauth', 'Generate authentification url %s', oauthData.url);
-      authData = oauthData;
-      res.writeHead(302, {'Location': oauthData.url});
-      res.end();
-      return;
-    });
+    authData.url = client.getLoginUrl({ scope: 'public_profile' });
+    log.info('RFacebookBot SaveOauth', 'Generate authentification url %s', authData.url);
+    res.writeHead(302, {'Location': authData.url});
+    res.end();
+    return;
   }
   else {
     var query = require('url').parse(req.url, true).query;
-    if(query.oauth_token === undefined || query.oauth_verifier === undefined) {
+    if(query.code === undefined) {
+      res.end('code undefined');
       return;
     }
 
+    if(query.error !== undefined) {
+      res.end('login-error ' + query.error_description);
+      return;
+    }
+
+    client.exchangeCodeForAccessToken(query.code, function(data) {
+      if(data === false) {
+        res.end('error');
+        return;
+      }
+      console.log(require('util').inspect(data, { depth: null }));
+    });
+
+/*
     client.resetAccessToken();
 
     client.authenticate(query.oauth_token, authData.oauth_token_secret, query.oauth_verifier, function(accessToken) {
@@ -146,6 +159,7 @@ server = http.createServer(function (req, res) {
         return;
       }
     });
+*/
   }
 });
 

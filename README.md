@@ -4,7 +4,7 @@ Bot for Facebook
 ## Setup
 1. Create Facebook application
 2. Rename conf.facebook.app.sample.js to conf.facebook.app.js
-3. Fill the file with **name** , **consumer_key** , **consumer_secret** , **access_token_key** , **access_token_secret** (**callback_url** is for user authentification)
+3. Fill the file with **name** , **app_id** , **app_secret** (**callback_url** is for user authentification)
 4. Create your job in folder jobs
 
 ## Example
