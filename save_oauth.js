@@ -96,70 +96,58 @@ server = http.createServer(function (req, res) {
         res.end('error');
         return;
       }
-      console.log(require('util').inspect(data, { depth: null }));
-    });
 
-/*
-    client.resetAccessToken();
+      client.setAccessToken(data.access_token);
 
-    client.authenticate(query.oauth_token, authData.oauth_token_secret, query.oauth_verifier, function(accessToken) {
-      if(accessToken !== false) {
-        accessToken.app_name = client.getAppName();
-        client.setAccessToken(accessToken.access_token_key, accessToken.access_token_secret);
-        client.get('account/settings',  function(error, tweet, response) {
-          if(error) {
-            logFacebookError(error);
-            throw error;
-          }
+      client.api('/me', function (_res) {
+        if(!_res || _res.error) {
+          logFacebookError(_res.error);
+          return;
+        }
 
-          // write file in oauth_access_cache
-          var fileToken = __dirname + '/oauth_access_cache/' + tweet.screen_name.toLowerCase() + '.tok';
-          var accessTokenFileStats = null;
-          var accessTokenJson = [];
-          var found = false;
+        // write file in oauth_access_cache
+        var accessTokenFileStats = null;
+        var accessTokenJson = [];
+        var found = false;
+        var user = _res.name;
+        var appName = client.getAppName();
+        var accessToken = data.access_token;
+        user = user.toLowerCase();
+        user = user.split(' ').join('_');
+        var fileToken = __dirname + '/oauth_access_cache/' + user + '.tok';
 
-          try {
-            accessTokenFileStats = fs.statSync(fileToken);
-          } catch (e) {
-            //
-          }
+        try {
+          accessTokenFileStats = fs.statSync(fileToken);
+        } catch (e) {
+          //
+        }
 
-          if(accessTokenFileStats !== null) {
-            accessTokenFileJson = fs.readFileSync(fileToken, 'utf8');
-            accessTokenJson = JSON.parse(accessTokenFileJson);
-            for (var i = 0; i < accessTokenJson.length; i++) {
-              if(accessTokenJson[i].app_name === accessToken.app_name) {
-                found = true;
-                log.info('RFacebookBot SaveOauth', 'Update access token for user %s for app %s', tweet.screen_name.toLowerCase(), accessToken.app_name);
-                accessTokenJson[i] = accessToken;
-                break;
-              }
+        if(accessTokenFileStats !== null) {
+          accessTokenFileJson = fs.readFileSync(fileToken, 'utf8');
+          accessTokenJson = JSON.parse(accessTokenFileJson);
+          for (var i = 0; i < accessTokenJson.length; i++) {
+            if(accessTokenJson[i].app_name === appName) {
+              found = true;
+              log.info('RFacebookBot SaveOauth', 'Update access token for user %s for app %s', user, appName);
+              accessTokenJson[i] = {access_token: accessToken, app_name: appName};
+              break;
             }
           }
+        }
 
-          if(accessTokenFileStats === null || !found) {
-            log.info('RFacebookBot SaveOauth', 'Add access token user %s for app %s', tweet.screen_name.toLowerCase(), accessToken.app_name);
-            accessTokenJson.push(accessToken);
-          }
+        if(accessTokenFileStats === null || !found) {
+          log.info('RFacebookBot SaveOauth', 'Add access token user %s for app %s', user, appName);
+          accessTokenJson.push({access_token: accessToken, app_name: appName});
+        }
 
-          fs.writeFileSync(fileToken, JSON.stringify(accessTokenJson));
-        });
+        fs.writeFileSync(fileToken, JSON.stringify(accessTokenJson));
 
         res.writeHead(200, {'Content-Type': 'text/plain'});
         res.end("Access Token saved");
+      });
 
-        return;
-      }
-      else {
-        log.error('RFacebookBot SaveOauth', 'Error in callback authenticate');
-
-        res.writeHead(500, {'Content-Type': 'text/plain'});
-        res.end("Error when callback authenticate");
-
-        return;
-      }
     });
-*/
+
   }
 });
 

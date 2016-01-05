@@ -101,4 +101,22 @@ RFacebook.prototype.extendAccessToken = function (accessToken) {
   });
 };
 
+RFacebook.prototype.setAccessTokenByUser = function (user) {
+  try {
+    var tokenJson = JSON.parse(fs.readFileSync('./oauth_access_cache/' + user + '.tok'));
+    for (var i = 0; i < tokenJson.length; i++) {
+      if(tokenJson[i].app_name === this.getAppName()) {
+        this.fb.setAccessToken(tokenJson[i].access_token);
+        return;
+      }
+    }
+  } catch (e) {
+    log.error('RFacebookBot', 'Access token not found for user %s', user);
+    throw "Access token not found for user " + user;
+  }
+
+  log.error('RFacebookBot', 'Access token not found for user %s', user);
+  throw "Access token not found for user " + user;
+};
+
 global.RFacebook = RFacebook;
