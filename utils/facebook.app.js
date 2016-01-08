@@ -15,7 +15,7 @@ global.getFacebookApp = function getFacebookApp(name, arrayEndpoints) {
       }
     }
     log.error('RFacebookBot', 'Facebook app %s not found', name);
-    throw "no app";
+    process.exit(1);
   }
   else {
     // no arguments? just give the first facebook app
@@ -52,6 +52,6 @@ global.getFacebookApp = function getFacebookApp(name, arrayEndpoints) {
     }
 
     log.error('RFacebookBot', 'No facebook app available');
-    throw "no app";
+    process.exit(1);
   }
 };

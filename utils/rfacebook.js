@@ -112,11 +112,11 @@ RFacebook.prototype.setAccessTokenByUser = function (user) {
     }
   } catch (e) {
     log.error('RFacebookBot', 'Access token not found for user %s', user);
-    throw "Access token not found for user " + user;
+    process.exit(1);
   }
 
-  log.error('RFacebookBot', 'Access token not found for user %s', user);
-  throw "Access token not found for user " + user;
+  log.error('RFacebookBot', 'Access token user %s not usable with app %s', screenName, this.getAppName());
+  process.exit(1);
 };
 
 global.RFacebook = RFacebook;
