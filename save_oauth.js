@@ -74,7 +74,7 @@ http = require('http');
 server = http.createServer(function (req, res) {
   if(req.url === '/') {
     // TODO scope in argument way
-    authData.url = client.getLoginUrl({ scope: 'profile_public' });
+    authData.url = client.getLoginUrl({ scope: 'public_profile' });
     log.info('RFacebookBot SaveOauth', 'Generate authentification url %s', authData.url);
     res.writeHead(302, {'Location': authData.url});
     res.end();
