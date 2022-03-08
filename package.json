@@ -17,7 +17,7 @@
   },
   "homepage": "https://github.com/rancoud/RFacebookBot#readme",
   "devDependencies": {
-    "colors": "^1.1.2",
+    "colors": "1.1.2",
     "fb": "^0.7.3",
     "npmlog": "^2.0.0"
   }
